@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRYPTOLAB — Cryptography Workbench</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+  <div><div class="brand">CRYPT<span>O</span>LAB</div><div class="sub">LOCAL CRYPTOGRAPHY WORKBENCH</div></div>
+  <div class="top-actions"><button id="commandBtn">⌘K</button><span class="online"><i></i> LOCAL</span></div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-tool="converter">Converter</button>
+  <button class="tab" data-tool="bitwise">Bitwise</button>
+  <button class="tab" data-tool="hash">Hash</button>
+  <button class="tab" data-tool="ciphers">Ciphers</button>
+  <button class="tab" data-tool="xor">XOR</button>
+  <button class="tab" data-tool="analysis">Analysis</button>
+  <button class="tab" data-tool="random">Random</button>
+  <button class="tab" data-tool="files">Files</button>
+  <button class="tab" data-tool="pipeline">Pipeline</button>
+  <button class="tab" data-tool="advanced">Advanced</button>
+</nav>
+
+<main>
+<section class="tool active-tool" id="converter">
+  <h1>Data Converter</h1><p class="lead">Convert representations without leaving the browser.</p>
+  <div class="controls three">
+    <div><label>FROM</label><div class="inline"><select id="convFrom"></select><select id="convFromBase" class="base"></select></div></div>
+    <button id="convSwap" class="square">⇄</button>
+    <div><label>TO</label><div class="inline"><select id="convTo"></select><select id="convToBase" class="base"></select></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="head">INPUT <button class="mini" id="convClear">Clear</button></div><textarea id="convInput" placeholder="Enter data..." spellcheck="false"></textarea></div>
+    <div class="card"><div class="head">OUTPUT <button class="mini" id="convCopy">Copy</button></div><textarea id="convOutput" readonly></textarea></div>
+  </div>
+  <div id="convError" class="error"></div>
+</section>
+
+<section class="tool" id="bitwise">
+  <h1>Bitwise Lab</h1><p class="lead">Operate directly on byte values.</p>
+  <div class="controls two"><div><label>FORMAT</label><select id="bitFormat"><option value="hex">Hex</option><option value="binary">Binary</option><option value="decimal">Decimal</option></select></div><div><label>OPERATION</label><select id="bitOp"><option>XOR</option><option>AND</option><option>OR</option><option>XNOR</option><option>NAND</option><option>NOR</option></select></div></div>
+  <div class="grid2"><div class="card"><div class="head">A</div><textarea id="bitA" placeholder="ff 00 7a" spellcheck="false"></textarea></div><div class="card"><div class="head">B</div><textarea id="bitB" placeholder="0f f0 55" spellcheck="false"></textarea></div></div>
+  <button class="primary" id="bitRun">Calculate</button>
+  <div class="card resultcard"><div class="head">RESULT</div><pre id="bitResult">—</pre></div>
+</section>
+
+<section class="tool" id="hash">
+  <h1>Hash Lab</h1><p class="lead">Digest text or files with browser-native cryptography where available.</p>
+  <div class="controls two"><div><label>ALGORITHM</label><select id="hashAlgo"><option>SHA-1</option><option selected>SHA-256</option><option>SHA-384</option><option>SHA-512</option></select></div><div><label>INPUT</label><select id="hashInputType"><option value="text">UTF-8 Text</option><option value="hex">Hex Bytes</option></select></div></div>
+  <div class="card"><div class="head">INPUT</div><textarea id="hashInput" placeholder="Hello, world!" spellcheck="false"></textarea></div>
+  <button class="primary" id="hashRun">Hash</button>
+  <div class="card resultcard"><div class="head">DIGEST — HEX <button class="mini" id="hashCopy">Copy</button></div><pre id="hashResult">—</pre></div>
+</section>
+
+<section class="tool" id="ciphers">
+  <h1>Classical Ciphers</h1><p class="lead">Educational classical cipher playground.</p>
+  <div class="controls three">
+    <div><label>CIPHER</label><select id="cipherType"><option>Caesar</option><option>ROT13</option><option>Atbash</option><option>Vigenere</option><option>Affine</option><option>Rail Fence</option><option>Columnar Transposition</option></select></div>
+    <div><label>MODE</label><select id="cipherMode"><option value="enc">Encrypt</option><option value="dec">Decrypt</option></select></div>
+    <div><label>KEY / PARAMETER</label><input id="cipherKey" value="13"></div>
+  </div>
+  <div class="grid2"><div class="card"><div class="head">INPUT</div><textarea id="cipherInput" placeholder="ATTACK AT DAWN" spellcheck="false"></textarea></div><div class="card"><div class="head">OUTPUT</div><textarea id="cipherOutput" readonly></textarea></div></div>
+  <button class="primary" id="cipherRun">Transform</button>
+  <div id="cipherError" class="error"></div>
+</section>
+
+<section class="tool" id="xor">
+  <h1>XOR Lab</h1><p class="lead">Byte-level XOR, including repeating-key mode.</p>
+  <div class="controls two"><div><label>FORMAT</label><select id="xorFormat"><option value="hex">Hex</option><option value="text">UTF-8 Text</option><option value="binary">Binary</option><option value="decimal">Decimal</option></select></div><label class="check"><input type="checkbox" id="xorRepeat"> Repeat shorter input</label></div>
+  <div class="grid2"><div class="card"><div class="head">A</div><textarea id="xorA" placeholder="48656c6c6f" spellcheck="false"></textarea></div><div class="card"><div class="head">B / KEY</div><textarea id="xorB" placeholder="776f726c64" spellcheck="false"></textarea></div></div>
+  <button class="primary" id="xorRun">XOR</button>
+  <div class="card resultcard"><div class="head">RESULT — HEX <button class="mini" id="xorCopy">Copy</button></div><pre id="xorResult">—</pre></div>
+  <div class="card"><div class="head">BYTE BREAKDOWN</div><div id="xorTable" class="table"></div></div>
+</section>
+
+<section class="tool" id="analysis">
+  <h1>Analysis</h1><p class="lead">Inspect byte distributions and estimate Shannon entropy.</p>
+  <div class="controls"><div><label>INPUT</label><select id="analysisType"><option value="text">UTF-8 Text</option><option value="hex">Hex Bytes</option><option value="base64">Base64</option></select></div></div>
+  <div class="card"><div class="head">DATA</div><textarea id="analysisInput" placeholder="Paste data..." spellcheck="false"></textarea></div>
+  <button class="primary" id="analysisRun">Analyze</button>
+  <div class="stats" id="analysisStats"></div>
+  <div class="card"><div class="head">BYTE FREQUENCY</div><div id="freq" class="frequency"></div></div>
+</section>
+
+<section class="tool" id="random">
+  <h1>Random & Number Tools</h1><p class="lead">Generate browser CSPRNG bytes and common identifiers.</p>
+  <div class="controls three"><div><label>BYTES</label><input id="randLength" type="number" min="1" max="4096" value="32"></div><div><label>OUTPUT</label><select id="randFormat"><option value="hex">Hex</option><option value="base64">Base64</option><option value="binary">Binary</option><option value="decimal">Decimal</option></select></div><button class="primary" id="randRun">Generate</button></div>
+  <div class="card resultcard"><div class="head">RANDOM OUTPUT <button class="mini" id="randCopy">Copy</button></div><pre id="randResult">—</pre></div>
+  <div class="controls two"><button class="secondary" id="uuidRun">Generate UUID</button><button class="secondary" id="primeRun">Generate 128-bit probable prime</button></div>
+  <div class="card resultcard"><pre id="numberResult">—</pre></div>
+</section>
+
+<section class="tool" id="files">
+  <h1>File Lab</h1><p class="lead">Inspect local files. Nothing is uploaded by this page.</p>
+  <div class="drop" id="drop"><input type="file" id="fileInput"><strong>Choose or drop a file</strong><span id="fileName">No file selected</span></div>
+  <div class="controls three"><div><label>VIEW</label><select id="fileView"><option value="hex">Hex</option><option value="base64">Base64</option><option value="binary">Binary</option><option value="text">UTF-8 Text</option></select></div><button class="primary" id="fileRun">Inspect</button><button class="secondary" id="fileHash">SHA-256</button></div>
+  <div class="card resultcard"><div class="head">OUTPUT <button class="mini" id="fileCopy">Copy</button></div><pre id="fileResult">—</pre></div>
+</section>
+
+<section class="tool" id="pipeline">
+  <h1>Pipeline</h1><p class="lead">Chain transformations into a repeatable local workflow.</p>
+  <div class="pipeline-add"><select id="stageType"><option value="text">UTF-8 → Bytes</option><option value="hex">Bytes → Hex</option><option value="base64">Bytes → Base64</option><option value="base58">Bytes → Base58</option><option value="binary">Bytes → Binary</option><option value="decimal">Bytes → Decimal</option><option value="sha256">SHA-256</option><option value="base16decode">Hex → Bytes</option><option value="base64decode">Base64 → Bytes</option></select><button class="primary" id="addStage">Add Stage</button></div>
+  <div id="stages" class="stages"></div>
+  <div class="card"><div class="head">INPUT</div><textarea id="pipeInput" placeholder="Start value..." spellcheck="false"></textarea></div>
+  <button class="primary" id="pipeRun">Run Pipeline</button>
+  <div class="card resultcard"><div class="head">OUTPUT</div><pre id="pipeResult">—</pre></div>
+</section>
+
+<section class="tool" id="advanced">
+  <h1>Advanced Crypto</h1><p class="lead">Browser-native demonstrations and utilities. Do not treat homemade/demo crypto as a replacement for audited cryptographic libraries.</p>
+  <div class="card">
+    <div class="head">HMAC</div>
+    <div class="controls two"><input id="hmacKey" placeholder="Secret key"><select id="hmacAlgo"><option>SHA-256</option><option>SHA-384</option><option>SHA-512</option></select></div>
+    <textarea id="hmacData" placeholder="Message"></textarea><button class="primary" id="hmacRun">Generate HMAC</button>
+    <pre id="hmacResult">—</pre>
+  </div>
+  <div class="card advanced-note"><div class="head">JWT DECODER</div><textarea id="jwtInput" placeholder="Paste a JWT (three dot-separated parts)"></textarea><button class="secondary" id="jwtRun">Decode</button><pre id="jwtResult">—</pre></div>
+</section>
+</main>
+</div>
+
+<div class="modal" id="commandModal"><div class="command-box"><input id="commandInput" placeholder="Search tools…"><div id="commandList"></div></div></div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
