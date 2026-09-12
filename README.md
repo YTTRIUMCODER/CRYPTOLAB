@@ -17,9 +17,6 @@ A local, browser-based cryptography workbench.
 - JWT decoder
 - Command palette with Ctrl/Cmd+K
 
-## Run
-
-Open `index.html` in a modern browser. No server or package installation is required.
 
 ## Notes
 
